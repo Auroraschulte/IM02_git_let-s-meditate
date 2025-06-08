@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zen Quote</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Playfair Display', serif;
+      background-size: cover;
+      background-position: center;
+      background-image: url(/Bilder/ocean.jpg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+      
+    }
+    .quote-box {
+      background: white;
+      opacity: 0.8;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 600px;
+    }
+    button {
+     margin-top: 30px;
+     padding: 10px 20px;
+     background-color: #355634;
+     color: white;
+     border: none;
+     border-radius: 6px;
+     cursor: pointer;
+     width: 180px;
+     height: 70px;
+     font-size: 2em; 
+     font-family: 'Playfair Display', serif;
+    }
+
+    #background-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+  #background-container video,
+  #background-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    h1 {
+      margin-top: 40px;
+      font-size: 2.5em;
+      color: white;
+      text-shadow: 2px 2px #000;
+    }
+    h2{
+      margin-top: 30px;
+      font-size: 2em;
+      color: white;
+      text-shadow: 2px 2px #000;
+    }
+    h3{
+       margin-top: 40px;
+      font-size: 2.5em;
+      color: black;
+      text-shadow: 2px 2px #535353;
+    }
+    h4{
+      margin-top: 40px;
+      font-size: 4.8em;
+      color: white;
+      text-shadow: 2px 2px #000;
+    }
+    p{
+     font-family: 'Playfair Display', serif;
+      font-size: 1.5em;
+      color: black;
+    }
+
+  </style>
+</head>
+<body id="zen-bg">
+  <h4 id="timer">5:00</h4>
+  <div class="quote-box">
+    <h3><strong>Quote:</strong></h3>
+    <p id="quote">Loading...</p>
+  </div>
+  <button onclick="location.href='index.html'">Namaste </button>
+  <div id="background-container"></div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+const master = params.get('master') || 'buddha';
+
+const backgrounds = {
+  buddha: '/Video/Buddha.mp4',
+  dalai_lama: '/Bilder/Dalai-Lama.webp',
+  dogen: '/Bilder/Dogen_2.jpeg',
+  thich_nhat_hanh: '/Bilder/thay.png'
+};
+
+const backgroundContainer = document.getElementById('background-container');
+const background = backgrounds[master];
+
+if (master === 'buddha') {
+  const video = document.createElement('video');
+  video.src = background;
+  video.autoplay = true;
+  video.muted = true;
+  video.loop = true;
+  video.playsInline = true;
+  backgroundContainer.appendChild(video);
+} else {
+  const img = document.createElement('img');
+  img.src = background;
+  img.alt = `${master} background`;
+  backgroundContainer.appendChild(img);
+}
+
+fetch(`https://buddha-api.com/api/random?by=${master}`)
+  .then(res => res.json())
+  .then(data => document.getElementById('quote').innerText = data.quote)
+  .catch(() => document.getElementById('quote').innerText = 'Quote could not be loaded.');
+
+let time = 300;
+const timerEl = document.getElementById('timer');
+const interval = setInterval(() => {
+  const min = Math.floor(time / 60);
+  const sec = time % 60;
+  timerEl.textContent = `${min}:${sec.toString().padStart(2, '0')}`;
+  if (--time < 0) clearInterval(interval);
+}, 1000);
+
+
+/*Ohne Video-Hintergrund*/
+
+    /*const params = new URLSearchParams(window.location.search);
+    const master = params.get('master') || 'buddha';
+
+    const backgrounds = {
+      buddha: '/Video/Buddha.mp4',
+      dalai_lama: '/Bilder/dalai.jpg',
+      dogen: '/Bilder/dogen.jpg',
+      thich_nhat_hanh: '/Bilder/thitch-BG.jpg'
+    };
+    const backgroundContainer = document.getElementById('background-container');
+    const background = backgrounds[master];
+
+    if (master === 'buddha') {
+   const video = document.createElement('video/buddha.mp4');
+  video.src = background;
+  video.autoplay = true;
+  video.muted = true;
+  video.loop = true;
+  video.playsInline = true;
+  backgroundContainer.appendChild(video);
+} else {
+  const img = document.createElement('img');
+  img.src = background;
+  img.alt = `${master} background`;
+  backgroundContainer.appendChild(img);
+}
+
+
+    document.body.style.backgroundImage = `url('${backgrounds[master]}')`;
+
+    fetch(`https://buddha-api.com/api/random?by=${master}`)
+      .then(res => res.json())
+      .then(data => document.getElementById('quote').innerText = data.quote)
+      .catch(() => document.getElementById('quote').innerText = 'Quote could not be loaded.');
+
+    let time = 299;
+    const timerEl = document.getElementById('timer');
+    const interval = setInterval(() => {
+      const min = Math.floor(time / 60);
+      const sec = time % 60;
+      timerEl.textContent = `${min}:${sec.toString().padStart(2, '0')}`;
+      if (--time < 0) clearInterval(interval);
+    }, 1000);*/
+  </script>
+</body>
+</html>
