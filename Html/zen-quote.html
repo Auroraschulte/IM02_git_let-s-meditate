@@ -143,52 +143,6 @@ const interval = setInterval(() => {
   if (--time < 0) clearInterval(interval);
 }, 1000);
 
-
-/*Ohne Video-Hintergrund*/
-
-    /*const params = new URLSearchParams(window.location.search);
-    const master = params.get('master') || 'buddha';
-
-    const backgrounds = {
-      buddha: '/Video/Buddha.mp4',
-      dalai_lama: '/Bilder/dalai.jpg',
-      dogen: '/Bilder/dogen.jpg',
-      thich_nhat_hanh: '/Bilder/thitch-BG.jpg'
-    };
-    const backgroundContainer = document.getElementById('background-container');
-    const background = backgrounds[master];
-
-    if (master === 'buddha') {
-   const video = document.createElement('video/buddha.mp4');
-  video.src = background;
-  video.autoplay = true;
-  video.muted = true;
-  video.loop = true;
-  video.playsInline = true;
-  backgroundContainer.appendChild(video);
-} else {
-  const img = document.createElement('img');
-  img.src = background;
-  img.alt = `${master} background`;
-  backgroundContainer.appendChild(img);
-}
-
-
-    document.body.style.backgroundImage = `url('${backgrounds[master]}')`;
-
-    fetch(`https://buddha-api.com/api/random?by=${master}`)
-      .then(res => res.json())
-      .then(data => document.getElementById('quote').innerText = data.quote)
-      .catch(() => document.getElementById('quote').innerText = 'Quote could not be loaded.');
-
-    let time = 299;
-    const timerEl = document.getElementById('timer');
-    const interval = setInterval(() => {
-      const min = Math.floor(time / 60);
-      const sec = time % 60;
-      timerEl.textContent = `${min}:${sec.toString().padStart(2, '0')}`;
-      if (--time < 0) clearInterval(interval);
-    }, 1000);*/
   </script>
 </body>
 </html>
