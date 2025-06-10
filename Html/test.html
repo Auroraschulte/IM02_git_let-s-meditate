@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Fact</title>
+  <link rel="stylesheet" href="css/daily.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Playfair Display', serif;
+      background-image: url(/Bilder/buddha-BG.jpg);
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      height: 100vh;
+    }
+    .quote-box {
+      background: white;
+      opacity: 0.8;
+      padding: 15px;
+      border-radius: 10px;
+      max-width: 600px;
+    }
+    button {
+      margin-top: 30px;
+      padding: 10px 20px;
+      background-color: #355634;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 180px;
+      height: 70px;
+      font-size: 2em; 
+      font-family: 'Playfair Display', serif;
+    }
+    #background-video {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      min-width: 100%;
+      min-height: 100%;
+      z-index: -1;
+      object-fit: fill;
+    }
+    h1 {
+      margin-top: 40px;
+      font-size: 2.5em;
+      color: white;
+      text-shadow: 2px 2px #000;
+    }
+    h2 {
+      margin-top: 30px;
+      font-size: 2em;
+      color: white;
+      text-shadow: 2px 2px #000;
+    }
+    h3 {
+      margin-top: 40px;
+      font-size: 2.5em;
+      color: black;
+      text-shadow: 2px 2px #535353c2;
+    }
+    h4 {
+      margin-top: 40px;
+      font-size: 4.8em;
+      color: white;
+      text-shadow: 2px 2px #000;
+    }
+    p {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5em;
+      color: black;
+    }
+  </style>
+</head>
+<body>
+  <video autoplay muted loop playsinline id="background-video">
+    <source src="video/Daily_1.mp4" type="video/mp4">
+  </video>
+  <h4 id="timer">4:59</h4>
+  <section class="quote-box">
+    <h3><strong>Fact:</strong></h3>
+    <p id="quote">Loading...</p>
+  </section>
+  <button onclick="location.href='index.html'">Namaste</button>
+
+  <script src="js/daily.js" type="module"></script>
+  <script>
+    // API Abruf
+    fetch('https://example.com/api/v2/facts/today') // Ersetze die URL mit der tatsächlichen API-URL
+      .then(res => {
+        if (!res.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return res.json();
+      })
+      .then(data => {
+        // Hier wird angenommen, dass das Datenobjekt ein Feld "fact" enthält
+        document.getElementById('quote').innerText = data.fact; // Ändere "quote" auf "fact"
+      })
+      .catch(error => {
+        console.error('Es gab ein Problem mit dem Abruf der API:', error);
+        document.getElementById('quote').innerText = 'Fact could not be loaded.';
+      });
+
+    // Timer
+    let time = 299;
+    const timerEl = document.getElementById('timer');
+    const interval = setInterval(() => {
+      const min = Math.floor(time / 60);
+      const sec = time % 60;
+      timerEl.textContent = `${min}:${sec.toString().padStart(2, '0')}`;
+      if (--time < 0) clearInterval(interval);
+    }, 1000);
+  </script>
+</body>
+</html>
