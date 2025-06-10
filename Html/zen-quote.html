@@ -102,6 +102,12 @@
     const params = new URLSearchParams(window.location.search);
 const master = params.get('master') || 'buddha';
 
+fetch(`https://buddha-api.com/api/random?by=${master}`)
+  .then(res => res.json())
+  .then(data => document.getElementById('text').innerText = data.quote)
+  .catch(() => document.getElementById('text').innerText = 'Quote could not be loaded.');
+
+
 const backgrounds = {
   buddha: '/Html/Video/Buddha.mp4',
   dalai_lama: '/Html/Bilder/Dalai-Lama.webp',
@@ -127,10 +133,6 @@ if (master === 'buddha') {
   backgroundContainer.appendChild(img);
 }
 
-fetch(`https://buddha-api.com/api/random?by=${master}`)
-  .then(res => res.json())
-  .then(data => document.getElementById('quote').innerText = data.quote)
-  .catch(() => document.getElementById('quote').innerText = 'Quote could not be loaded.');
 
 let time = 300;
 const timerEl = document.getElementById('timer');
