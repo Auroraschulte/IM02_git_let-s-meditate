@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Daily Quote</title>
-  <link rel="stylesheet" href="css/daily.css">
+  <!--<link rel="stylesheet" href="css/daily.css">-->
   <style>
     body {
       margin: 0;
@@ -90,25 +90,10 @@
   </section>
   <button onclick="location.href='index.html'">Namaste</button>
 
-  <script src="js/daily.js" type="module"></script>
+  <!--<script src="js/daily.js" type="module"></script>-->
+  
   <script>
-    // API Abruf
-    fetch('https://buddha-api.com/api/today')
-      .then(res => {
-        if (!res.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return res.json();
-      })
-      .then(data => {
-        document.getElementById('text').innerText = data.text;
-      })
-      .catch(error => {
-        console.error('Es gab ein Problem mit dem Abruf der API:', error);
-        document.getElementById('text').innerText = 'Quote could not be loaded.';
-      });
-
-    // Timer
+    // Timer code first (so it runs immediately)
     let time = 299;
     const timerEl = document.getElementById('timer');
     const interval = setInterval(() => {
@@ -117,6 +102,29 @@
       timerEl.textContent = `${min}:${sec.toString().padStart(2, '0')}`;
       if (--time < 0) clearInterval(interval);
     }, 1000);
+
+    // API Fetch with better error handling
+    fetch('https://buddha-api.com/api/today')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log('API Response:', data); // Debugging log
+        if (data && data.text) {
+          document.getElementById('quote').textContent = data.text;
+        } else {
+          throw new Error('Quote text not found in response');
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching quote:', error);
+        document.getElementById('quote').textContent = 
+          'Failed to load quote. Please try again later.';
+      });
   </script>
 </body>
 </html>
+
