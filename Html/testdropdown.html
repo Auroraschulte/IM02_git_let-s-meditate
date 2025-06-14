@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zen-Master Auswahl</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Playfair Display', serif;
+      background-size: cover;
+      background-position: center;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+    .dropdown {
+      background: rgba(255, 255, 255, 0.15);
+      padding: 30px;
+      border-radius: 16px;
+      text-align: center;
+      height: 50%;
+      width: 40%;
+    }
+    select, button {
+      padding: 10px 15px;
+      margin-top: 20px;
+      border: none;
+      border-radius: 6px;
+      height: 50px; /* Adjusted height for better visibility */
+      width: 50%;
+      font-family: 'Playfair Display', serif;
+      font-size: 2em;
+      color: black;
+    }
+    button {
+      background-color: #355634;
+      color: white;
+      cursor: pointer;
+    }
+    #background-video {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      min-width: 100%;
+      min-height: 100%;
+      z-index: -1;
+      object-fit: cover;    
+    }
+    h3 {
+      margin-top: 40px;
+      font-size: 2.5em;
+      color: rgb(255, 255, 255);
+      text-shadow: 2px 2px #000000;
+    }
+  </style>
+</head> 
+<body>
+  <video autoplay muted loop playsinline id="background-video">
+    <source src="video/Dropdown.mp4" type="video/mp4">
+  </video>
+  <section class="dropdown">
+    <label for="language"><h3>select language</h3></label><br>
+    <select id="selcet-language">
+      <option value="">language</option>
+      <option value="en">English</option>
+      <option value="de">Deutsch</option>
+     </select>
+    <br>
+    <button onclick="goToQuote()">Let's go</button>
+  </section>
+   
+  <script>
+    function goToQuote() {
+      const master = document.getElementById('language').value;
+      if (!master) return;
+      location.href = `uselessfacts.jsph.pl/api/v2/facts/random?language=${language}`;
+    }
+   
+  </script>
+</body>
+</html>

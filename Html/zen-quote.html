@@ -1,3 +1,80 @@
+
+
+
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zen Quote</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Playfair Display', serif;
+      background-size: cover;
+      background-position: center;
+      background-image: url(/Bilder/ocean.jpg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;     
+    }
+    .quote-box {
+      background: white;
+      opacity: 0.8;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 600px;
+    }
+    button {
+      margin-top: 30px;
+      padding: 10px 20px;
+      background-color: #355634;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 180px;
+      height: 70px;
+      font-size: 2em; 
+      font-family: 'Playfair Display', serif;
+    }
+    h3 {
+      margin-top: 40px;
+      font-size: 2.5em;
+      color: black;
+      text-shadow: 2px 2px #535353;
+    }
+    p {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5em;
+      color: black;
+    }
+  </style>
+</head>
+<body>
+  <div class="quote-box">
+    <h3><strong>Quote:</strong></h3>
+    <p id="quote">Loading...</p>
+  </div>
+  <button onclick="location.href='index.html'">Namaste</button>
+
+  <script>
+    // Retrieve fact data from localStorage
+    const zenFact = JSON.parse(localStorage.getItem('zenFact'));
+    
+    if (zenFact) {
+      document.getElementById('quote').innerText = zenFact.text; // Display the fetched fact
+    } else {
+      document.getElementById('quote').innerText = 'No fact available.'; // Fallback message
+    }
+  </script>
+</body>
+</html>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -146,3 +223,4 @@ const interval = setInterval(() => {
   </script>
 </body>
 </html>
+-->

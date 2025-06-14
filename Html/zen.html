@@ -1,4 +1,98 @@
 <!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fakt Generator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
+  <style>
+      body {
+      margin: 0;
+      font-family: 'Playfair Display', serif;
+      background-size: cover;
+      background-position: center;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+    .quote-box {
+      background: white;
+      opacity: 0.8;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 600px;
+    }
+    button {
+      margin-top: 30px;
+      padding: 10px 20px;
+      background-color: #355634;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 180px;
+      height: 70px;
+      font-size: 2em; 
+      font-family: 'Playfair Display', serif;
+    }
+    
+    #background-video {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      min-width: 100%;
+      min-height: 100%;
+      z-index: -1;
+      object-fit: cover;    
+    }
+    h1 {
+      margin-top: 40px;
+      font-size: 2.5em;
+      color: black;
+      text-shadow: 2px 2px #535353;
+    }
+    h2 {
+      font-size: 2em;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <video autoplay muted loop playsinline id="background-video">
+    <source src="video/" type="video/mp4">
+  </video>
+
+  <h1>Quote</h1>
+  <div class="quote-box">
+    <p id="quote">Bitte wählen Sie eine Sprache.</p>
+  </div>
+
+  <h2>Select Language</h2>
+  <button onclick="fetchFact('de')">Deutsch</button>
+  <button onclick="fetchFact('en')">English</button>
+
+  <script>
+    async function fetchFact(language) {
+      try {
+        // Fetch random fact from the API
+        const response = await fetch(`https://uselessfacts.jsph.pl/api/v2/facts/random?language=${language}`);
+        if (!response.ok) throw new Error('Failed to fetch fact');
+        
+        const factData = await response.json();
+        document.getElementById('quote').innerText = factData.text; // Display the fetched fact
+      } catch (error) {
+        console.error('Error fetching fact:', error);
+        document.getElementById('quote').innerText = 'Konnte den Fakt nicht laden.';
+      }
+    }
+  </script>
+
+</body>
+</html>
+
+<!--<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -106,3 +200,150 @@
   </script>
 </body>
 </html>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>selcet-language</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Playfair Display', serif;
+      background-size: cover;
+      background-position: center;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+    .dropdown {
+      background: rgba(255, 255, 255, 0.15);
+      padding: 30px;
+      border-radius: 16px;
+      text-align: center;
+      height: 50%;
+      width: 40%;
+    }
+    select, button {
+      padding: 10px 15px;
+      margin-top: 20px;
+      border: none;
+      border-radius: 6px;
+      height: 50px; /* Adjusted height for better visibility */
+      width: 50%;
+      font-family: 'Playfair Display', serif;
+      font-size: 2em;
+      color: black;
+    }
+    button {
+      background-color: #355634;
+      color: white;
+      cursor: pointer;
+    }
+    #background-video {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      min-width: 100%;
+      min-height: 100%;
+      z-index: -1;
+      object-fit: cover;    
+    }
+    h3 {
+      margin-top: 40px;
+      font-size: 2.5em;
+      color: rgb(255, 255, 255);
+      text-shadow: 2px 2px #000000;
+    }
+  </style>
+</head> 
+<body>
+  <video autoplay muted loop playsinline id="background-video">
+    <source src="video/Dropdown.mp4" type="video/mp4">
+  </video>
+  
+  <section class="dropdown">
+    <label for="select-language"><h3>Select Language</h3></label><br>
+    <select id="select-language">
+      <option value="">Language</option>
+      <option value="en">English</option>
+      <option value="de">Deutsch</option>
+    </select>
+    <br>
+    <button onclick="goToQuote()">Let's go</button>
+  </section>
+
+    <script>
+    async function goToQuote() {
+  const language = document.getElementById('select-language').value; // Fetch selected language
+  if (!language) return; // Exit if no language is selected
+  
+  try {
+    // Fetch random fact from the API
+    const response = await fetch(`https://uselessfacts.jsph.pl/api/v2/facts/random?language=${language}`);
+    if (!response.ok) throw new Error('Failed to fetch fact');
+    
+    const factData = await response.json();
+    
+    // Store fact data in localStorage to pass to next page
+    localStorage.setItem('zenFact', JSON.stringify({
+      text: factData.text,
+      source: factData.source || "Useless Facts",
+      source_url: factData.source_url || "",
+      language: factData.language || "de",
+      permalink: factData.permalink || ""
+    }));
+    
+    // Redirect to the appropriate page
+    location.href = 'zen-quote.html'; // Redirect to the quote page
+  } catch (error) {
+    console.error('Error:', error);
+    // Fallback fact if API fails
+    localStorage.setItem('zenFact', JSON.stringify({
+      text: "The heart of a shrimp is located in its head.",
+      source: "Useless Facts",
+      source_url: "",
+      language: "de",
+      permalink: ""
+    }));
+    
+    // Redirect even if the API fails
+    location.href = 'zen-quote.html'; // Redirect to the quote page
+  }
+}
+      try {
+        // Fetch random fact from the API
+        const response = await fetch(`https://uselessfacts.jsph.pl/api/v2/facts/random?language=${language}`);
+        if (!response.ok) throw new Error('Failed to fetch fact');
+        
+        const factData = await response.json();
+        
+        // Store fact data in localStorage to pass to next page
+        localStorage.setItem('zenFact', JSON.stringify({
+          text: factData.text,
+          source: factData.source || "Useless Facts" // Fallback source if not available
+        }));
+        
+        // Redirect to the appropriate page
+        location.href = 'zen-quote.html'; // Redirect to the quote page
+      } catch (error) {
+        console.error('Error:', error);
+        // Fallback fact if API fails
+        localStorage.setItem('zenFact', JSON.stringify({
+          text: "The heart of a shrimp is located in its head.",
+          source: "Useless Facts" // Ensure source is included
+        }));
+        
+        // Redirect even if the API fails
+        location.href = 'zen-quote.html'; // Redirect to the quote page
+      }
+    
+  </script>
+</body>
+</html>
+-->
