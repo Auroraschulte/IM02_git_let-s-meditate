@@ -3,7 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Daily Fact</title>
+   <title>Daily Fact</title>
+   <link rel="stylesheet" href="daily.css">
+   
+   </head>
+  <!-- 
   <style>
     body {
       margin: 0;
@@ -75,10 +79,12 @@
       font-family: 'Playfair Display', serif;
       font-size: 1.5em;
       color: black;
-    }
+    
   </style>
-</head>
+-->
+
 <body>
+  <main>
   <video autoplay muted loop playsinline id="background-video">
     <source src="video/Daily_1.mp4" type="video/mp4">
   </video>
@@ -88,8 +94,9 @@
     <p id="quote">Loading...</p>
   </section>
   <button onclick="location.href='index.html'">Namaste</button>
-
-  <script>
+ </main>
+  <script> src="server.js/daily.js" type="module">
+    /*
     // Timer code (runs immediately when page loads)
     let time = 300; 
     const timerEl = document.getElementById('timer'); 
@@ -135,6 +142,7 @@
         document.getElementById('quote').textContent = 
           "Ein Standard-Fakt, wenn die API nicht geladen werden kann.";
       });
+      */
   </script>
 </body>
 </html>
