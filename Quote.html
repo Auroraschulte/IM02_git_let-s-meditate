@@ -4,13 +4,81 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fakt Generator</title>
-   <link rel="stylesheet" href="css/quote.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Playfair Display', serif;
+      background-size: cover;
+      background-position: center;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      background-color: #282c34;
+    }
+    .quote-box {
+      background: rgba(255, 255, 255, 0.15);
+      padding: 20px;
+      border-radius: 16px;
+      text-align: center;
+      max-width: 600px;
+      margin-top: 10px; /* Abstand zum Timer verringern */
+      margin-bottom: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      margin: 10px;
+      border: none;
+      border-radius: 6px;
+      background-color: #355634;
+      color: white;
+      cursor: pointer;
+      font-size: 1.5em;
+    }
+    h1 {
+      font-size: 3em;
+      margin-bottom: 20px;
+    }
+    h2 {
+      font-size: 2em;
+      margin-bottom: 10px;
+    }
+    h4 {
+      margin-top: 10px;
+      font-size: 4.8em;
+      color: white;
+      text-shadow: 2px 2px #000;
+    }
+    p {
+      font-size: 1.5em;
+      margin-bottom: 10px;
+      color: rgb(255, 255, 255);
+    }
+    #background-video {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      min-width: 100%;
+      min-height: 100%;
+      z-index: -1;
+      object-fit: cover;    
+    }
+    .button-container {
+      display: flex; /* Flexbox für die Buttons */
+      justify-content: center; /* Zentriert die Buttons */
+      margin-bottom: 20px; /* Abstand unter den Buttons */
+    }
+  </style>
 </head>
 <body>
 
   <video autoplay muted loop playsinline id="background-video">
     <source src="video/Dropdown.mp4" type="video/mp4">
   </video>
+  
   <h4 id="timer">5:00</h4>
   <h1>Quote</h1>
   <div class="quote-box">
@@ -26,7 +94,48 @@
   
   <button onclick="location.href='index.html'">Namaste</button>
 
-<script src="js/quote.js" type="module"></script>
+  <script>
+    // Timer code (runs immediately when page loads)
+    let time = 300; 
+    const timerEl = document.getElementById('timer'); 
+
+    // Update timer every second (1000ms)
+    const interval = setInterval(() => {
+      // Calculate minutes and seconds
+      const min = Math.floor(time / 60);
+      const sec = time % 60;
+      
+      // Format time as "m:ss" with leading zero for seconds
+      timerEl.textContent = `${min}:${sec.toString().padStart(2, '0')}`;
+      
+      // Decrement time and stop if we reach 0
+      if (--time < 0) {
+        clearInterval(interval); // Stop the timer
+      }
+    }, 1000);
+    
+    let currentLanguage = 'de'; // Standardmäßig auf Deutsch setzen
+
+    async function fetchFact(language) {
+      currentLanguage = language; // Aktuelle Sprache setzen
+      try {
+        // Fetch random fact from the API
+        const response = await fetch(`https://uselessfacts.jsph.pl/api/v2/facts/random?language=${language}`);
+        if (!response.ok) throw new Error('Failed to fetch fact');
+        
+        const factData = await response.json();
+        document.getElementById('quote').innerText = factData.text; // Display the fetched fact
+        document.getElementById('reload-button').style.display = 'block'; // Reload-Button anzeigen
+      } catch (error) {
+        console.error('Error fetching fact:', error);
+        document.getElementById('quote').innerText = 'Konnte den Fakt nicht laden.';
+      }
+    }
+
+    function reloadFact() {
+      fetchFact(currentLanguage); // Neuen Fakt in der aktuellen Sprache laden
+    }
+  </script>
 
 </body>
 </html>
